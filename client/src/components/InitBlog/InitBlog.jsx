@@ -16,6 +16,7 @@ const InitBlog = () => {
                 postSG?.map((post,index)=>(
                     <CardPost
                         key={index}
+                        Id={post.id}
                         Title={post.Title}
                         Creator={post.Creator}
                         Date={post.Date}

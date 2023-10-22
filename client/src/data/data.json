@@ -1,5 +1,6 @@
 [
     {
+      "id":"1",
       "Title": "Post 1",
       "Creator": "Author 1",
       "Date": "2021-01-01",
@@ -7,6 +8,7 @@
       "Text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     },
     {
+      "id":"2",
       "Title": "Post 2",
       "Creator": "Author 2",
       "Date": "2021-02-02",
@@ -14,6 +16,7 @@
       "Text": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     },
     {
+      "id":"3",
       "Title": "Post 3",
       "Creator": "Author 3",
       "Date": "2021-03-03",
@@ -21,6 +24,7 @@
       "Text": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
     },
     {
+      "id":"4",
       "Title": "Post 4",
       "Creator": "Author 4",
       "Date": "2021-04-04",
@@ -28,6 +32,7 @@
       "Text": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
     },
     {
+      "id":"5",
       "Title": "Post 5",
       "Creator": "Author 5",
       "Date": "2021-05-05",

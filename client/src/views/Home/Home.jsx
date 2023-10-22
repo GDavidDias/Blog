@@ -4,6 +4,7 @@ import Footer from "../Footer/Footer";
 import NavBar from "../NavBar/NavBar";
 import { setPage } from "../../redux/pageSlice";
 import InitBlog from "../../components/InitBlog/InitBlog";
+import PostDetail from "../../components/PostDetail/PostDetail";
 
 const Home = () => {
     const pageSG = useSelector((state)=>state.page.page);
@@ -16,7 +17,9 @@ const Home = () => {
             case 'InitBlog':
                 setContent(<InitBlog/>);
                 break;
-        
+            case 'PostDetail':
+                setContent(<PostDetail/>)
+                break;
             default:
                 setContent(<InitBlog/>);
                 break;
