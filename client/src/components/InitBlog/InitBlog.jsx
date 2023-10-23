@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CardPost from "../CardPost/CardPost";
 
 const InitBlog = () => {
-    const postSG = useSelector((state)=>state.posts.posts)
+    const postSG = useSelector((state)=>state.posts.filterPosts);
     
     useEffect(()=>{
         console.log('que tiene postSG: ', postSG);

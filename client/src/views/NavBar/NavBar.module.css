@@ -1,0 +1,28 @@
+.dropDownMenuCat{
+    position: absolute;
+    top: 10vh;
+    right: 40%;
+    background-color: #FFF;
+    border-radius: 15px;
+    padding: 10px 20px;
+    width: 12rem;
+    /* border: 1px solid #F2F2F2; */
+    border: 1px solid #85A0F2;    
+}
+.dropDownMenuCat::before{
+    content: '';
+    position: absolute;
+    top: -5px;
+}
+.active{
+    opacity: 1; 
+    visibility: visible;
+    transform: translateY(0);
+    transition: var(--speed) ease;
+ }
+ .inactive{
+     opacity: 0;
+     visibility: hidden;
+     transform: translateY(-20px);
+     transition: var(--speed) ease;
+ }
