@@ -15,7 +15,7 @@
       "Date": "2021-02-02",
       "Image": "https://res.cloudinary.com/dyttujtxb/image/upload/v1697313993/cld-sample-5.jpg",
       "Text": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "Category":["Deporte"]
+      "Category":["Deportes"]
     },
     {
       "id":"3",
@@ -33,7 +33,7 @@
       "Date": "2021-04-04",
       "Image": "https://res.cloudinary.com/dyttujtxb/image/upload/v1697313992/cld-sample-2.jpg",
       "Text": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-      "Category":["Sociales", "Cultura"]
+      "Category":["Sociedad", "Cultura"]
     },
     {
       "id":"5",
