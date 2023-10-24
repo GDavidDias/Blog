@@ -47,6 +47,28 @@ const NavBar = () => {
         console.log('que se filtro: ', postSG)
     };
 
+    const handleSearch = () =>{
+        if(input){
+            console.log('tiene datos')
+            const filterPostSearch = postSG.filter(post=>post.Title.toLowerCase().includes(input.toLowerCase()));
+            if(filterPostSearch.length!==0){
+                dispatch(setFilterPosts(filterPostSearch))
+            }else{
+                dispatch(setFilterPosts(postSG))
+            }
+        }else{ 
+            console.log('no tiene datos')
+            dispatch(setFilterPosts(postSG))
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        if(e.key==="Enter"){
+            console.log('presiono tecla Enter en Input');
+            handleSearch();
+        }
+    };
+
     useEffect(()=>{
         console.log('que valor tiene open: ', open)
     },[open])
@@ -84,6 +106,7 @@ const NavBar = () => {
                     className='w-64 h-8 p-2 border-2'
                     placeholder='buscar titulo post...'
                     onChange={handleInput}
+                    onKeyDown={handleKeyPress}
                     value={input}
                 />
                 <button
@@ -92,7 +115,7 @@ const NavBar = () => {
                 >X</button>
                 <FaSearch
                     className='text-lg ml-2 cursor-pointer'
-                    
+                    onClick={handleSearch}
                 />
             </div>
             <div>
