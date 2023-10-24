@@ -1,4 +1,5 @@
 import style from './NavBar.module.css';
+import {FaSearch} from 'react-icons/fa';
 import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../../redux/pageSlice";
 
@@ -12,7 +13,12 @@ const NavBar = () => {
 
     const[open, setOpen] = useState(false);
     const postSG = useSelector((state)=>state.posts.posts);
+    const[input,setInput]=useState('');
     
+    const handleInput = (event) => {
+        const {value} = event.target;
+        setInput(value);
+    };
 
 
     const handleBlogueros = () =>{
@@ -46,6 +52,10 @@ const NavBar = () => {
     },[open])
 
     useEffect(()=>{
+        console.log('que tiene input: ', input)
+    },[input])
+
+    useEffect(()=>{
         setOpen(false);
     },[]);
 
@@ -69,36 +79,49 @@ const NavBar = () => {
                     onClick={()=>handleBlogueros()}
                 >Blogueros</h1>
             </div>
-            <div>
-                <input></input>
+            <div className='flex flex-row items-center'>
+                <input
+                    className='w-64 h-8 p-2 border-2'
+                    placeholder='buscar titulo post...'
+                    onChange={handleInput}
+                    value={input}
+                />
+                <button
+                    className='text-lg border-2 bg-white'
+                    onClick={()=>setInput('')}
+                >X</button>
+                <FaSearch
+                    className='text-lg ml-2 cursor-pointer'
+                    
+                />
             </div>
             <div>
                 <h1 
                     className="cursor-pointer" 
-                    //onClick={()=>{setOpen(!open)}}
+                    onClick={()=>{setOpen(!open)}}
                     onMouseEnter={()=>{setOpen(!open)}}
                 >Categorias</h1>
             </div>
-            <div ref={menuRef}>
-                <div 
-                    className={`${style.dropDownMenuCat} ${open ?style.active :style.inactive}`}
-                >
-                    <ul>
-                        <DropdownCategories 
-                            text="Todo" 
-                            onClick={()=>handleCategoryAll()}
-                        />
-                        {
-                            dataCategories?.map((category,index)=>(
-                                <DropdownCategories
-                                    key={index}
-                                    text={category}
-                                    onClick={()=>handleCategory(category)}
-                                />
-                            ))
-                        }
-                    </ul>
-                </div>
+
+            <div 
+                className={`${style.dropDownMenuCat} ${open ?style.active :style.inactive}`}
+                ref={menuRef}
+            >
+                <ul>
+                    <DropdownCategories 
+                        text="Todo" 
+                        onClick={()=>handleCategoryAll()}
+                    />
+                    {
+                        dataCategories?.map((category,index)=>(
+                            <DropdownCategories
+                                key={index}
+                                text={category}
+                                onClick={()=>handleCategory(category)}
+                            />
+                        ))
+                    }
+                </ul>
             </div>
             <div>
                 <h1>New Post</h1>
