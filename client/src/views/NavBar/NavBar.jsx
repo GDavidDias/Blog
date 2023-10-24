@@ -95,65 +95,68 @@ const NavBar = () => {
     });    
 
     return(
-        <div className="w-full h-[10vh] border-2 bg-slate-100 flex flex-row justify-center items-center space-x-14">
-            <div>
-                <h1 className="hover:text-blue-500 cursor-pointer "
-                    onClick={()=>handleBlogueros()}
-                >Blogueros</h1>
-            </div>
-            <div className='flex flex-row items-center'>
-                <input
-                    className='w-64 h-8 p-2 border-2'
-                    placeholder='buscar titulo post...'
-                    onChange={handleInput}
-                    onKeyDown={handleKeyPress}
-                    value={input}
-                />
-                <button
-                    className='text-lg border-2 bg-white'
-                    onClick={()=>setInput('')}
-                >X</button>
-                <FaSearch
-                    className='text-lg ml-2 cursor-pointer'
-                    onClick={handleSearch}
-                />
-            </div>
-            <div>
-                <h1 
-                    className="cursor-pointer" 
-                    onClick={()=>{setOpen(!open)}}
-                    onMouseEnter={()=>{setOpen(!open)}}
-                >Categorias</h1>
-            </div>
-
-            <div 
-                className={`${style.dropDownMenuCat} ${open ?style.active :style.inactive}`}
-                ref={menuRef}
-            >
-                <ul>
-                    <DropdownCategories 
-                        text="Todo" 
-                        onClick={()=>handleCategoryAll()}
+        <div className="w-full h-[10vh] border-2 bg-slate-100 flex flex-row justify-between items-center space-x-14">
+            <div className='flex flex-row space-x-4 items-center justify-start pl-8'>
+                <div>
+                    <h1 className="hover:text-blue-500 cursor-pointer "
+                        onClick={()=>handleBlogueros()}
+                    >Blogueros</h1>
+                </div>
+                <div className='flex flex-row items-center'>
+                    <input
+                        className='w-64 h-8 p-2 border-2'
+                        placeholder='buscar titulo post...'
+                        onChange={handleInput}
+                        onKeyDown={handleKeyPress}
+                        value={input}
                     />
-                    {
-                        dataCategories?.map((category,index)=>(
-                            <DropdownCategories
-                                key={index}
-                                text={category}
-                                onClick={()=>handleCategory(category)}
-                            />
-                        ))
-                    }
-                </ul>
+                    <button
+                        className='text-lg border-2 bg-white'
+                        onClick={()=>setInput('')}
+                    >X</button>
+                    <FaSearch
+                        className='text-lg ml-2 cursor-pointer'
+                        onClick={handleSearch}
+                    />
+                </div>
             </div>
-            <div>
-                <h1>New Post</h1>
-            </div>
-            <div>
-                <h1>My Posts</h1>
-            </div>
-            <div>
-                <h1>Login</h1>
+            <div className='flex flex-row space-x-4 pr-8'>
+                <div>
+                    <h1 
+                        className="cursor-pointer" 
+                        onClick={()=>{setOpen(!open)}}
+                        onMouseEnter={()=>{setOpen(!open)}}
+                    >Categorias</h1>
+                </div>
+                <div 
+                    className={`${style.dropDownMenuCat} ${open ?style.active :style.inactive}`}
+                    ref={menuRef}
+                >
+                    <ul>
+                        <DropdownCategories 
+                            text="Todo" 
+                            onClick={()=>handleCategoryAll()}
+                        />
+                        {
+                            dataCategories?.map((category,index)=>(
+                                <DropdownCategories
+                                    key={index}
+                                    text={category}
+                                    onClick={()=>handleCategory(category)}
+                                />
+                            ))
+                        }
+                    </ul>
+                </div>
+                <div>
+                    <h1>New Post</h1>
+                </div>
+                <div>
+                    <h1>My Posts</h1>
+                </div>
+                <div>
+                    <h1>Login</h1>
+                </div>
             </div>
         </div>
     )

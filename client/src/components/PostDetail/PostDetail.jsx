@@ -10,7 +10,7 @@ const PostDetail = (props) => {
             <div className="border-2 w-[86vw] h-[76vh] text-center p-2 flex flex-col items-center">
                 <h1 className="text-lg font-bold">{Title}</h1>
                 <h3>{`By: ${Creator} / Date: ${Date}`}</h3>
-                <img src={Image} className="w-[60%] h-[60%] flex"/>
+                <img src={Image} className=" h-[60%] flex"/>
                 <p className="p-2">{Text}</p>
                 
 
