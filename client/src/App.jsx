@@ -1,15 +1,23 @@
 import Landing from './components/Landing/Landing';
 import {Routes, Route} from 'react-router-dom';
 import Home from './views/Home/Home';
-import dataJson from './data/data.json';
 import { useDispatch } from 'react-redux';
 import { setAllPosts } from './redux/postSlice';
 import { useEffect } from 'react';
+import axios from 'axios';
+import {URL} from '../varGlobal.js';
 
 function App() {
   const dispatch = useDispatch();
-  const getAllPost = () =>{
-    dispatch(setAllPosts(dataJson))
+
+  const getAllPost = async() =>{
+    try{
+      const {data} = await axios.get(`${URL}/api/setDefaultPosts`);
+      console.log('que trae data: ', data);
+      dispatch(setAllPosts(data))
+    }catch(error){
+      console.log('error en getAllPost: ', error)
+    }
   };
 
   useEffect(()=>{

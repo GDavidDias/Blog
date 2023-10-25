@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import dataJson from '../../data/data.json';
 import { useDispatch, useSelector } from "react-redux";
 import CardPost from "../CardPost/CardPost";
 
