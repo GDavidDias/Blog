@@ -13,6 +13,7 @@ const Landing = () => {
     const[msgError, setMsgError] = useState('');
     const[msgButton, setMsgButton] = useState('');
     const[isOpenModal,openModal,closeModal]=useModal(false);
+    const[isMsgOpenModal,MsgopenModal,MsgcloseModal]=useModal(false);
     const[formData, setFormData] = useState({
         username:'',
         password:'',
@@ -73,7 +74,26 @@ const Landing = () => {
     };
 
     const submitRegister = async(event) =>{
+        console.log('se presiona registrarse');
+        try{
+            const {data} = await axios.post(`${URL}/api/register`,formRegister);
+            console.log('que trae data -ok register: ', data);
+            setMsgErrorRegister('');
+            setValidateRegister(true);
+            closeModal(true);
+            MsgopenModal();
+        }catch(error){
+            console.log('que trae data -error register: ', error)
+            //const msgError = error.response.data.error;
+            setMsgErrorRegister(error.response.data.error);
+            setValidateRegister(false);
+        }
 
+    };
+
+    const submitOpenModal = () =>{
+        setFormRegister({name:'',username:'',password:''})
+        openModal()
     };
 
     useEffect(()=>{
@@ -155,7 +175,7 @@ const Landing = () => {
                 <div className="flex justify-center mt-4">
                     <button
                         className="font-bold w-40 h-8 border-2 bg-orange-500 text-white hover:bg-orange-700 cursor-pointer"
-                        onClick={()=>openModal()}
+                        onClick={submitOpenModal}
                     >Registrarse</button>
                 </div>
 
@@ -189,7 +209,7 @@ const Landing = () => {
                             onChange={handleChangeRegister}
                         ></input>
                         <div className="mt-2 h-4">
-                            {validateRegister 
+                            {validateRegister
                                 ?<p></p> 
                                 :<p
                                     className="italic text-red-500"
@@ -206,6 +226,18 @@ const Landing = () => {
                             onClick={submitRegister}
                             disabled={!validateRegister}
                         >Registrarse</button>
+                    </div>
+                </Modal>
+                <Modal isOpen={isMsgOpenModal} closeModal={MsgcloseModal}>
+                    <div className="flex flex-col items-center mt-6 w-72 font-bold space-y-6">
+                        <h1 
+                            className="text-lg"
+                        >Bienvenido a Bloguear!</h1>
+                        
+                        <img src='/images/welcome.png'></img>
+                        <h3
+                            className="text-lg text-center"
+                        >Inicie sesion con su usuario y contraseña creados</h3>
                     </div>
                 </Modal>
             </div>
