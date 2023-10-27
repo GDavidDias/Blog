@@ -5,14 +5,17 @@ import { setPage } from "../../redux/pageSlice";
 
 import { useEffect, useRef, useState } from "react";
 import { setFilterPosts } from '../../redux/postSlice';
+import { useNavigate } from 'react-router-dom';
 
 const dataCategories = ["Cultura","Deportes","Sociedad","Comidas","Argentina"];
 
 const NavBar = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const[open, setOpen] = useState(false);
     const postSG = useSelector((state)=>state.posts.posts);
+    const userSG = useSelector((state)=>state.user);
     const[input,setInput]=useState('');
     
     const handleInput = (event) => {
@@ -69,6 +72,10 @@ const NavBar = () => {
         }
     };
 
+    const handleLogin = () => {
+        navigate('/')
+    };
+
     useEffect(()=>{
         console.log('que valor tiene open: ', open)
     },[open])
@@ -79,6 +86,7 @@ const NavBar = () => {
 
     useEffect(()=>{
         setOpen(false);
+        console.log('que tiene userSG: ', userSG)
     },[]);
 
     let menuRef = useRef();
@@ -155,7 +163,10 @@ const NavBar = () => {
                     <h1>My Posts</h1>
                 </div>
                 <div>
-                    <h1>Login</h1>
+                    <h1
+                        className='hover:text-blue-500 cursor-pointer'
+                        onClick={handleLogin}
+                    >{userSG.username ?'Logout' :'Login'}</h1>
                 </div>
             </div>
         </div>

@@ -3,21 +3,41 @@ import { useNavigate } from "react-router-dom";
 import {URL} from '../../../varGlobal';
 import axios from 'axios';
 import { useDispatch } from "react-redux";
-import { setUser } from "../../redux/userSlice";
+import { outUser, setUser } from "../../redux/userSlice";
+import {useModal} from '../../hooks/useModal';
+import Modal from "../Modal/Modal";
+
 
 const Landing = () => {
     const[validate, setValidate] = useState(true);
     const[msgError, setMsgError] = useState('');
     const[msgButton, setMsgButton] = useState('');
+    const[isOpenModal,openModal,closeModal]=useModal(false);
     const[formData, setFormData] = useState({
         username:'',
         password:'',
     });
 
+    const[formRegister, setFormRegister] = useState({
+        name:'',
+        username:'',
+        password:'',
+    });
+    const[msgErrorRegister, setMsgErrorRegister] = useState('');
+    const[validateRegister, setValidateRegister] = useState(true)
+
     const handleChange = (e) => {
         const {name, value} = e.target;
         setFormData({
             ...formData,
+            [name]:value
+        })
+    };
+
+    const handleChangeRegister = (e) =>{
+        const {name,value} = e.target;
+        setFormRegister({
+            ...formRegister,
             [name]:value
         })
     };
@@ -52,6 +72,10 @@ const Landing = () => {
         }
     };
 
+    const submitRegister = async(event) =>{
+
+    };
+
     useEffect(()=>{
         console.log('que tiene formData: ', formData);
         if((!formData.username && !formData.password) || (formData.username && formData.password)){
@@ -67,6 +91,22 @@ const Landing = () => {
             setMsgButton('Ingresar')
         }
     },[formData],[validate])
+
+    useEffect(()=>{
+        console.log('que tiene formRegister: ', formRegister);
+        if(formRegister.name && formRegister.username && formRegister.password){
+            setValidateRegister(true)
+            setMsgErrorRegister('')
+        }else{
+            setValidateRegister(false)
+            setMsgErrorRegister('Faltan completar campos')
+        }
+    },[formRegister])
+
+    //?AL RENDERIZAR LA PRIMERA VEZ
+    useEffect(()=>{
+        dispatch(outUser());
+    },[])
 
     return(
         <div className="w-full h-screen bg-cover bg-center flex flex-col justify-center bg-[url('./images/initial-image.png')]">
@@ -112,6 +152,62 @@ const Landing = () => {
                         >{msgButton}</button>
                     </div>
                 </form>
+                <div className="flex justify-center mt-4">
+                    <button
+                        className="font-bold w-40 h-8 border-2 bg-orange-500 text-white hover:bg-orange-700 cursor-pointer"
+                        onClick={()=>openModal()}
+                    >Registrarse</button>
+                </div>
+
+                <Modal isOpen={isOpenModal} closeModal={closeModal}>
+                    <div className="flex flex-col items-center mt-6 w-72">
+                        <h1 
+                            className="font-bold text-lg"
+                        >NUEVO USUARIO</h1>
+                        <p className="mt-4">Nombre</p>
+                        <input
+                            className="border-2 px-2 py-1"
+                            name="name"
+                            type="text"
+                            value={formRegister.name}
+                            onChange={handleChangeRegister}
+                        />
+                        <p className="mt-4">Usuario</p>
+                        <input
+                            className="border-2 px-2 py-1"
+                            name="username"
+                            type="text"
+                            value={formRegister.username}
+                            onChange={handleChangeRegister}
+                        ></input>
+                        <p className="mt-4">Contraseña</p>
+                        <input
+                            className="border-2 px-2 py-1"
+                            name="password"
+                            type="text"
+                            value={formRegister.password}
+                            onChange={handleChangeRegister}
+                        ></input>
+                        <div className="mt-2 h-4">
+                            {validateRegister 
+                                ?<p></p> 
+                                :<p
+                                    className="italic text-red-500"
+                                >{msgErrorRegister}</p>
+                            }
+                        </div>
+                        <button
+                            className={`mt-4 font-bold w-40 h-8 border-2
+                                ${(validateRegister)
+                                    ?`bg-orange-500 hover:bg-orange-700 text-white`
+                                    :`bg-slate-400 hover:bg-slate-400 text-white`
+                                }
+                            `}
+                            onClick={submitRegister}
+                            disabled={!validateRegister}
+                        >Registrarse</button>
+                    </div>
+                </Modal>
             </div>
         </div>
     )
