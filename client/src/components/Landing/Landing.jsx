@@ -161,7 +161,7 @@ const Landing = () => {
                     </div>
                     <div className="flex justify-center mt-4">
                         <button
-                            className={`font-bold w-60 h-8 border-2
+                            className={`font-bold w-56 h-8 border-2
                                 ${(validate)
                                     ?`bg-orange-500 hover:bg-orange-700 text-white`
                                     :`bg-slate-400 hover:bg-slate-400 text-white`
@@ -174,7 +174,7 @@ const Landing = () => {
                 </form>
                 <div className="flex justify-center mt-4">
                     <button
-                        className="font-bold w-40 h-8 border-2 bg-orange-500 text-white hover:bg-orange-700 cursor-pointer"
+                        className="font-bold w-56 h-8 border-2 bg-orange-500 text-white hover:bg-orange-700 cursor-pointer"
                         onClick={submitOpenModal}
                     >Registrarse</button>
                 </div>

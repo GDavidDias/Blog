@@ -1,5 +1,5 @@
 import style from './NavBar.module.css';
-import {FaSearch} from 'react-icons/fa';
+import {FaSearch,FaUserAlt} from 'react-icons/fa';
 import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../../redux/pageSlice";
 
@@ -74,6 +74,10 @@ const NavBar = () => {
 
     const handleLogin = () => {
         navigate('/')
+    };
+
+    const handlePerfil = () =>{
+
     };
 
     useEffect(()=>{
@@ -166,7 +170,10 @@ const NavBar = () => {
                     <h1
                         className='hover:text-blue-500 cursor-pointer'
                         onClick={handleLogin}
-                    >{userSG.username ?'Logout' :'Login'}</h1>
+                    >{userSG.username 
+                        ?'Logout'
+                        :'Login'
+                    }</h1>
                 </div>
             </div>
         </div>
