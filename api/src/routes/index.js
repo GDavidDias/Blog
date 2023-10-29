@@ -4,6 +4,7 @@ const setDefaultPosts = require('../controllers/setDefaultPosts');
 const register = require('../controllers/register');
 const login = require('../controllers/login');
 const editProfile = require('../controllers/editProfile');
+const newPost = require('../controllers/newPost');
 
 
 const router = Router();
@@ -19,15 +20,25 @@ router.post('/login',login);
 //logout
 
 //modifica perfil
-router.put('/editProfile/:id', editProfile)
+router.put('/editProfile/:id', editProfile);
 
 
 
 //?RUTAS PARA CRUD DE POST
 //crea nuevo post
+router.post('/newPost/:id',newPost);
+
 //consulta posts existentes de un usuario
+//router.get('/userPosts/:id',);
+
 //modifica post existente
-//elimina post existente
+//router.put('/editPost/:postId',);
+
+//deshabilita post existente
+//router.put('/deletePost/:postId',);
+
+//Habilita post deshabilitado
+//router.put('/enablePost/:postId',);
 
 
 module.exports = router;
