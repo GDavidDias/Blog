@@ -29,5 +29,9 @@ module.exports = (sequelize) => {
             type:DataTypes.TEXT,
             allowNull:true,
         },
+        Available:{
+            type:DataTypes.BOOLEAN,
+            allowNull:true,
+        }
     });
 };
