@@ -77,11 +77,22 @@ const NavBar = () => {
     };
 
     const handleMyPosts = () =>{
-        console.log('presiona MyPosts')
+        console.log('presiona My Posts')
         if(userSG.username){
             console.log('ESTA LOGUEADO')
             //?TRAE LOS POST DEL USUARIO
-            
+            dispatch(setPage('PostsUser'));
+        }else{
+            console.log('NO ESTA LOGUEADO')
+        }
+    };
+
+    const handleNewPost = () =>{
+        console.log('presiona New Post')
+        if(userSG.username){
+            console.log('ESTA LOGUEADO')
+            //?TRAE LOS POST DEL USUARIO
+            dispatch(setPage('NewPostUser'));
         }else{
             console.log('NO ESTA LOGUEADO')
         }
@@ -174,6 +185,7 @@ const NavBar = () => {
                                     ?`font-bold hover:text-blue-500 cursor-pointer`
                                     :`text-slate-400`
                                     }`}
+                        onClick={handleNewPost}
                     >New Post</h1>
                 </div>
                 <div>
