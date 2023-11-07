@@ -3,7 +3,8 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState={
     posts:[],
     postDetail:{},
-    filterPosts:[]
+    filterPosts:[],
+    categories:[],
 }
 
 export const postSlice=createSlice({
@@ -19,9 +20,12 @@ export const postSlice=createSlice({
         },
         setFilterPosts:(state,action)=>{            
             state.filterPosts = action.payload;
+        },
+        setCategories:(state,action)=>{
+            state.categories = action.payload;
         }
     }
 });
 
-export const {setAllPosts,setPostDetail,setFilterPosts}=postSlice.actions;
+export const {setAllPosts,setPostDetail,setFilterPosts,setCategories}=postSlice.actions;
 export default postSlice.reducer;

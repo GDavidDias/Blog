@@ -6,12 +6,14 @@ const login = require('../controllers/login');
 const editProfile = require('../controllers/editProfile');
 const newPost = require('../controllers/newPost');
 const listPostsUser = require('../controllers/listPostsUser');
+const getCategories = require('../controllers/getCategories');
 
 
 const router = Router();
 
 router.get('/allPosts',listAllPosts);
 router.get('/setDefaultPosts',setDefaultPosts);
+router.get('/getCategories',getCategories);
 
 //?RUTAS DE USUARIO
 //crea perfil
