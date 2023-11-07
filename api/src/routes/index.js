@@ -5,6 +5,7 @@ const register = require('../controllers/register');
 const login = require('../controllers/login');
 const editProfile = require('../controllers/editProfile');
 const newPost = require('../controllers/newPost');
+const listPostsUser = require('../controllers/listPostsUser');
 
 
 const router = Router();
@@ -29,7 +30,7 @@ router.put('/editProfile/:id', editProfile);
 router.post('/newPost/:id',newPost);
 
 //consulta posts existentes de un usuario
-//router.get('/userPosts/:id',);
+router.get('/listUserPosts/:id',listPostsUser);
 
 //modifica post existente
 //router.put('/editPost/:postId',);
