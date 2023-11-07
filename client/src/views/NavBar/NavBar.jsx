@@ -76,9 +76,17 @@ const NavBar = () => {
         navigate('/')
     };
 
-    const handlePerfil = () =>{
-
+    const handleMyPosts = () =>{
+        console.log('presiona MyPosts')
+        if(userSG.username){
+            console.log('ESTA LOGUEADO')
+            //?TRAE LOS POST DEL USUARIO
+            
+        }else{
+            console.log('NO ESTA LOGUEADO')
+        }
     };
+
 
     useEffect(()=>{
         console.log('que valor tiene open: ', open)
@@ -161,10 +169,20 @@ const NavBar = () => {
                     </ul>
                 </div>
                 <div>
-                    <h1>New Post</h1>
+                    <h1
+                        className={`${(userSG.username)
+                                    ?`font-bold hover:text-blue-500 cursor-pointer`
+                                    :`text-slate-400`
+                                    }`}
+                    >New Post</h1>
                 </div>
                 <div>
-                    <h1>My Posts</h1>
+                    <h1
+                        className={`${(userSG.username) 
+                                    ?`font-bold hover:text-blue-500 cursor-pointer` 
+                                    :`text-slate-400`}`}
+                        onClick={handleMyPosts}
+                    >My Posts</h1>
                 </div>
                 <div>
                     <h1
