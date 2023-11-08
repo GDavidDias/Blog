@@ -1,12 +1,22 @@
-const {Posts,Category} = require('../db.js');
+const {Posts,Category,User} = require('../db.js');
 
 const listAllPosts = async function(req,res){
     console.log('ingresa a listAllPosts');
     try{
         const allPosts = await Posts.findAll({
-            include:Category,
+            // include:Category,
+            // include:User,
+            include:[
+                {
+                    model:Category,
+                    
+                },
+                {
+                    model: User,
+                }
+            ]
             });
-        //console.log('que trae allPosts: ', allPosts)
+        console.log('que trae allPosts: ', allPosts)
         
         //Convierto resultados en objeto JSON
         const jsonData = allPosts.map((post)=>{
@@ -19,6 +29,8 @@ const listAllPosts = async function(req,res){
                 Image: post.Image,
                 Text: post.Text,
                 Category: post.categories.map((cat)=>cat.Description),
+                Available: post.Available,
+                UserId:post.userId,
             };
         });
         console.log('que trae jsonData: ', jsonData)

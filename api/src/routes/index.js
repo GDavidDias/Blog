@@ -7,6 +7,7 @@ const editProfile = require('../controllers/editProfile');
 const newPost = require('../controllers/newPost');
 const listPostsUser = require('../controllers/listPostsUser');
 const getCategories = require('../controllers/getCategories');
+const changeStatePost = require('../controllers/changeStatePost');
 
 
 const router = Router();
@@ -34,11 +35,12 @@ router.post('/newPost/:id',newPost);
 //consulta posts existentes de un usuario
 router.get('/listUserPosts/:id',listPostsUser);
 
+//modifica estado de Post Available.
+router.put('/changeStatePost/:postId',changeStatePost);
+
 //modifica post existente
 //router.put('/editPost/:postId',);
 
-//deshabilita post existente
-//router.put('/deletePost/:postId',);
 
 //Habilita post deshabilitado
 //router.put('/enablePost/:postId',);

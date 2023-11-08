@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
+import {URL} from '../../../varGlobal';
+import {useModal} from '../../hooks/useModal';
+import Modal from '../Modal/Modal';
+import { setPage } from "../../redux/pageSlice";
 
 const NewPostUser = () => {
     const userSG = useSelector((state)=>state.user);
     const categorySG = useSelector((state)=>state.posts.categories);
+    const dispatch = useDispatch();
+
+    const[isOpenModal,openModal,closeModal]=useModal(false);
     
     const traeFecha = ()=>{
         //FechaActual
@@ -82,8 +89,17 @@ const NewPostUser = () => {
         })
     };    
 
-    const handleSubmit = () =>{
+    const handleSubmit = async() =>{
+        const userId= userSG.id;
 
+        try{
+            const resp =await axios.post(`${URL}/api/newPost/${userId}`,formData);
+            console.log('que trae response de post: ', resp);
+            openModal();
+            dispatch(setPage('InitBlog'))
+        }catch(error){
+            console.log('error en handleSubmit NewPostUser: ', error);
+        }
     };
 
     useEffect(()=>{
@@ -107,7 +123,7 @@ const NewPostUser = () => {
     },[])
 
     return(
-        <div className="w-full h-[80vh] bg-gray-50 p-4 flex flex-col items-center space-y-4">
+        <div className="w-full h-[80vh] bg-gray-50 p-4 flex flex-col items-center space-y-4 overflow-y-auto">
             <h1>Nuevo Post de: {userSG.username}</h1>
             {/* //?CONTENEDOR */}
             <div className="border-2 w-full h-[70vh] bg-gray-100 flex flex-col items-center space-y-4">
@@ -217,6 +233,18 @@ const NewPostUser = () => {
                     </div>
                 </div>
             </div>
+            <Modal isOpen={isOpenModal} closeModal={closeModal}>
+                    <div className="flex flex-col items-center mt-6 w-72 font-bold space-y-6">
+                        <h1 
+                            className="text-lg"
+                        >Post</h1>
+                        
+                        <img src='/images/ok.png'></img>
+                        <h3
+                            className="text-lg text-center"
+                        >creado exitosamente!</h3>
+                    </div>
+            </Modal>
         </div>
     )
 };

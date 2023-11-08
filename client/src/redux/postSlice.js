@@ -15,6 +15,10 @@ export const postSlice=createSlice({
             state.posts = action.payload;
             state.filterPosts= action.payload;
         },
+        deleteAllPosts:(state,action)=>{
+            state.posts = [];
+            state.filterPosts= [];
+        },
         setPostDetail:(state,action)=>{
             state.postDetail=action.payload;
         },
@@ -27,5 +31,5 @@ export const postSlice=createSlice({
     }
 });
 
-export const {setAllPosts,setPostDetail,setFilterPosts,setCategories}=postSlice.actions;
+export const {setAllPosts,setPostDetail,setFilterPosts,setCategories,deleteAllPosts}=postSlice.actions;
 export default postSlice.reducer;

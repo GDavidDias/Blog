@@ -20,6 +20,7 @@ const listPostsUser = async function(req,res){
                 Image: post.Image,
                 Text: post.Text,
                 Category: post.categories.map((cat)=>cat.Description),
+                Available: post.Available,
             }
         });
         console.log('como convirtio JsonData: ', jsonData);
