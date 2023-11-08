@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const NewPostUser = () => {
     const userSG = useSelector((state)=>state.user);
+    const categorySG = useSelector((state)=>state.posts.categories);
     
     const traeFecha = ()=>{
         //FechaActual
@@ -21,7 +22,7 @@ const NewPostUser = () => {
         return fechaActualString;
     };
 
-
+    const[selCat, setSelCat]=useState([]);
     const[validate, setValidate]=useState(true);
     const[url_image, setUrl_image]=useState('');
     const[formData, setFormData]=useState({
@@ -30,15 +31,39 @@ const NewPostUser = () => {
         date:'',
         image:'',
         text:'',
+        category:[],
     });
 
     const handleChange=(e)=>{
         const{name,value} = e.target;
-        setFormData({
-            ...formData,
-            [name]:value
-        })
-    }
+        
+        if(name==='selectCat'){
+            if(!formData.category.includes(value)){
+                //?copio estado actual de formData
+                const formDataActual = {...formData};
+                //?copio arreglo de category y agrego nueva category
+                const arregloCategoryForm = [...formData.category,value];
+                //?actualizo arreglo de category en formData Actual
+                formDataActual.category=arregloCategoryForm;
+                //?seteo el estado local de formData para actualizarlo
+                setFormData(formDataActual);
+            }
+        }else{
+            setFormData({
+                ...formData,
+                [name]:value
+            })
+        }
+    };
+
+    const handleDeleteCategories = ()=>{
+        if(formData.category.length>0){
+            setFormData({
+                ...formData,
+                category:[]
+            })
+        }
+    };
 
     const changeUploadImage = async(event) => {
         const file = event.target.files[0];
@@ -57,10 +82,14 @@ const NewPostUser = () => {
         })
     };    
 
+    const handleSubmit = () =>{
+
+    };
+
     useEffect(()=>{
         console.log('que tiene formData: ', formData)
         console.log('que tiene url_image: ', url_image)
-        if(formData.title && formData.creator && formData.date && formData.text){
+        if(formData.title && formData.creator && formData.date && formData.text && formData.image && formData.category.length>0){
             setValidate(true);
         }else{
             setValidate(false);
@@ -100,11 +129,38 @@ const NewPostUser = () => {
                             value={formData.title}
                             onChange={handleChange}
                         />
-                        <input
+                        {/* <input
                             className="border-2 px-2 py-1 w-full"
                             type="text"
                             name="categoria"
-                        />
+                        /> */}
+                        <div className="flex flex-col">
+                            <div className="flex flex-row space-x-4 pl-2">
+                                {/* <p>Seleccione Categoria</p> */}
+                                <select
+                                    name="selectCat"
+                                    onChange={handleChange}
+                                >
+                                    <option selected disabled>--Seleccione Categorias</option>
+                                    {
+                                        categorySG?.map((cat,index)=>(
+                                            <option>{cat}</option>
+                                        ))
+                                    }
+                                </select>
+                                <button
+                                    className=""
+                                    onClick={handleDeleteCategories}
+                                >Borrar Categorias</button>
+                            </div>
+                            <div className="border-2 h-20 bg-white flex flex-row space-x-4 p-2">
+                                {
+                                    formData.category?.map((cat)=>(
+                                        <p>{cat}</p>
+                                    ))
+                                }
+                            </div>
+                        </div>
                         <input
                             className="border-2 px-2 py-1 w-full"
                             type="file"
@@ -152,7 +208,7 @@ const NewPostUser = () => {
                                 }
                             `}
                             disabled={!validate}
-                            
+                            onClick={handleSubmit}
 
                         >Guardar</button>
                         <button
