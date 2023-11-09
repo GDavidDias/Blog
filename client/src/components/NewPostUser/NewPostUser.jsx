@@ -5,9 +5,12 @@ import {URL} from '../../../varGlobal';
 import {useModal} from '../../hooks/useModal';
 import Modal from '../Modal/Modal';
 import { setPage } from "../../redux/pageSlice";
+import { deletePostDetail, setEditPost } from "../../redux/postSlice";
 
 const NewPostUser = () => {
     const userSG = useSelector((state)=>state.user);
+    const editPostSG = useSelector((state)=>state.posts.editPost);
+    const postDetailSG = useSelector((state)=>state.posts.postDetail);
     const categorySG = useSelector((state)=>state.posts.categories);
     const dispatch = useDispatch();
 
@@ -91,15 +94,40 @@ const NewPostUser = () => {
 
     const handleSubmit = async() =>{
         const userId= userSG.id;
+        //?SI ESTADO GLOBAL EDITPOST TIENE UN ID SE EDITA SINO ES NUEVO
+        if(editPostSG){
+            console.log('EDITO POST');
+            try{
+                const resp = await axios.put(`${URL}/api/editPost/${editPostSG}`,formData);
+                console.log('que trae response de put editPost: ', resp);
+                openModal();
 
-        try{
-            const resp =await axios.post(`${URL}/api/newPost/${userId}`,formData);
-            console.log('que trae response de post: ', resp);
-            openModal();
-            dispatch(setPage('InitBlog'))
-        }catch(error){
-            console.log('error en handleSubmit NewPostUser: ', error);
+            }catch(error){
+                console.log('error en handleSubmit EditPostUser: ', error);
+            }
+        }else{
+            console.log('NUEVO POST')
+            try{
+                const resp =await axios.post(`${URL}/api/newPost/${userId}`,formData);
+                console.log('que trae response de post: ', resp);
+                openModal();
+                
+            }catch(error){
+                console.log('error en handleSubmit NewPostUser: ', error);
+            }
         }
+    };
+
+    const handleCancel = ()=>{
+        //presiono boton cancelar
+        dispatch(setEditPost(''));
+        dispatch(deletePostDetail());
+        dispatch(setPage('InitBlog'));
+    };
+
+    const submitOkModal=()=>{
+        //se presiona OK en ventana modal
+        dispatch(setPage('InitBlog'));
     };
 
     useEffect(()=>{
@@ -115,28 +143,45 @@ const NewPostUser = () => {
     //?AL RENDERIZAR
     useEffect(()=>{
         //cargo datos de creador y fecha del post
-        setFormData({
-            ...formData,
-            creator:userSG.username,
-            date:traeFecha()
-        })
+        //?SI ESTADO GLOBAL EDITPOST TIENE UN VALOR SE EDITA
+        if(editPostSG){
+            console.log('EDICION DE POST');
+            setFormData({
+                title:postDetailSG.Title,
+                creator:postDetailSG.Creator,
+                date:postDetailSG.Date,
+                image:postDetailSG.Image,
+                text:postDetailSG.Text,
+                category:postDetailSG.Category,
+            })
+            setUrl_image(postDetailSG.Image)
+        }else{
+            console.log('NUEVO POST')
+            setFormData({
+                ...formData,
+                creator:userSG.username,
+                date:traeFecha()
+            })
+        }
     },[])
 
     return(
-        <div className="w-full h-[80vh] bg-gray-50 p-4 flex flex-col items-center space-y-4 overflow-y-auto">
-            <h1>Nuevo Post de: {userSG.username}</h1>
+        <div className="w-full h-[80vh] bg-gray-50 p-4 flex flex-col items-center space-y-2 overflow-y-auto">
+            <h1
+                className="font-bold text-lg"
+            >{editPostSG ?'Edicion' :'Nuevo'} Post de: {userSG.username}</h1>
             {/* //?CONTENEDOR */}
-            <div className="border-2 w-full h-[70vh] bg-gray-100 flex flex-col items-center space-y-4">
+            <div className="border-2 w-full h-[75vh] bg-gray-100 flex flex-col items-center space-y-2">
                 {/* //?PARTE SUPERIOR */}
                 <div className="w-full flex flex-row">
                     {/* //?PARTE IZQUIERDA TITULOS */}
-                    <div className="border-2 w-[15%] flex flex-col text-right pr-2">
+                    <div className=" w-[15%] flex flex-col text-right pr-2">
                         <p className="py-2">Titulo del Post</p>
-                        <p className="py-2">Categoria</p>
-                        <p className="py-2">Imagen</p>
+                        <p className="pt-2">Categoria</p>
+                        <p className="pt-20">Imagen</p>
                     </div>
                     {/* //?PARTE CENTRO INPUTS */}
-                    <div className="border-2 w-[70%] space-y-1">
+                    <div className=" w-[70%] space-y-1">
                         <input
                             className="border-2 px-2 py-1 w-full"
                             type="text"
@@ -145,11 +190,7 @@ const NewPostUser = () => {
                             value={formData.title}
                             onChange={handleChange}
                         />
-                        {/* <input
-                            className="border-2 px-2 py-1 w-full"
-                            type="text"
-                            name="categoria"
-                        /> */}
+
                         <div className="flex flex-col">
                             <div className="flex flex-row space-x-4 pl-2">
                                 {/* <p>Seleccione Categoria</p> */}
@@ -187,7 +228,7 @@ const NewPostUser = () => {
                         
                     </div>
                     {/* //?PARTE DERECHA INPUTS */}
-                    <div className="border-2 w-[25%] ">
+                    <div className=" w-[25%] ">
                     {
                             url_image && (
                                 <div>
@@ -207,7 +248,7 @@ const NewPostUser = () => {
                     <div className="flex flex-col items-center">
                         <p>Descripcion del Post</p>
                         <textarea
-                            className="border-2 px-2 py-1 w-full h-72 rounded-md border-blue-800"
+                            className="border-2 px-2 py-1 w-full h-64 rounded-md border-blue-800"
                             name="text"
                             placeholder="Ingrese texto del post..."
                             value={formData.text}
@@ -215,7 +256,7 @@ const NewPostUser = () => {
                         />
                     </div>
                     {/* //?BOTONES DEL POST */}
-                    <div className="flex flex-row justify-center space-x-4 border-2 pt-4">
+                    <div className="flex flex-row justify-center space-x-4  py-4">
                         <button
                             className={`font-bold w-48 h-8 border-2
                                 ${(validate)
@@ -228,21 +269,26 @@ const NewPostUser = () => {
 
                         >Guardar</button>
                         <button
-                            className="font-bold w-48 h-8 border-2"
-                        >Eliminar</button>
+                            className="font-bold w-48 h-8 border-2 bg-orange-500 hover:bg-orange-700 text-white"
+                            onClick={handleCancel}
+                        >Cancelar</button>
                     </div>
                 </div>
             </div>
-            <Modal isOpen={isOpenModal} closeModal={closeModal}>
+            <Modal isOpen={isOpenModal} >
                     <div className="flex flex-col items-center mt-6 w-72 font-bold space-y-6">
                         <h1 
                             className="text-lg"
                         >Post</h1>
                         
-                        <img src='/images/ok.png'></img>
+                        <img src='/images/ok.jpg' className="h-48 w-48"></img>
                         <h3
                             className="text-lg text-center"
-                        >creado exitosamente!</h3>
+                        >{editPostSG ?'Editado' :'Creado'} Exitosamente!</h3>
+                        <button
+                            className="font-bold w-48 h-8 border-2 bg-orange-500 hover:bg-orange-700 text-white"
+                            onClick={submitOkModal}
+                        >OK</button>
                     </div>
             </Modal>
         </div>

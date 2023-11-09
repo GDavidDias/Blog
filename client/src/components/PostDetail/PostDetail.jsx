@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
 import { URL } from "../../../varGlobal";
 import { setPage } from "../../redux/pageSlice";
+import { setEditPost } from "../../redux/postSlice";
 
 const PostDetail = (props) => {
     const postDetailSG = useSelector((state)=>state.posts.postDetail);
+    const editPostSG = useSelector((state)=>state.posts.editPost);
     const userSG = useSelector((state)=>state.user);
     console.log('que tiene postDetailSG: ', postDetailSG);
     const {Id,Title,Creator,Date,Image,Text} = postDetailSG;
@@ -23,6 +25,15 @@ const PostDetail = (props) => {
             console.log('error en submitState: ', error);
         }
     };
+
+    const submitEdit = async()=>{
+        //Presiono Editar, si esta habilitado es del usuario logueado
+        //Seteo estado global editPost con el id del post
+        dispatch(setEditPost(postDetailSG.Id));
+        //Llamo a formulario NewPostUser y paso los datos en su estado
+        dispatch(setPage('NewPostUser'));
+
+    };
     
     useEffect(()=>{
         console.log('que tiene userSG.id: ', userSG.id);
@@ -32,6 +43,8 @@ const PostDetail = (props) => {
         }else{
             setValidate(false);
         }
+        //seteo estado global editPost a vacio
+        dispatch(setEditPost(''));
     },[])
 
     return(
@@ -50,6 +63,7 @@ const PostDetail = (props) => {
                             }
                         `}
                         disabled={!validate}
+                        onClick={submitEdit}
                     >Editar</button>
                     <button
                         className={`font-bold w-48 h-8 border-2

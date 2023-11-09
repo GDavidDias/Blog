@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../../redux/pageSlice";
 
 import { useEffect, useRef, useState } from "react";
-import { setFilterPosts } from '../../redux/postSlice';
+import { deletePostDetail, setEditPost, setFilterPosts } from '../../redux/postSlice';
 import { useNavigate } from 'react-router-dom';
 
 const dataCategories = ["Cultura","Deportes","Sociedad","Comidas","Argentina"];
@@ -25,6 +25,8 @@ const NavBar = () => {
 
 
     const handleBlogueros = () =>{
+        dispatch(setEditPost(''));
+        dispatch(deletePostDetail());
         dispatch(setPage('InitBlog'))
     };
 
@@ -81,6 +83,8 @@ const NavBar = () => {
         if(userSG.username){
             console.log('ESTA LOGUEADO')
             //?TRAE LOS POST DEL USUARIO
+            dispatch(setEditPost(''));
+            dispatch(deletePostDetail());
             dispatch(setPage('PostsUser'));
         }else{
             console.log('NO ESTA LOGUEADO')

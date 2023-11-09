@@ -8,6 +8,7 @@ const newPost = require('../controllers/newPost');
 const listPostsUser = require('../controllers/listPostsUser');
 const getCategories = require('../controllers/getCategories');
 const changeStatePost = require('../controllers/changeStatePost');
+const editPost = require('../controllers/editPost');
 
 
 const router = Router();
@@ -39,11 +40,8 @@ router.get('/listUserPosts/:id',listPostsUser);
 router.put('/changeStatePost/:postId',changeStatePost);
 
 //modifica post existente
-//router.put('/editPost/:postId',);
+router.put('/editPost/:postId',editPost);
 
-
-//Habilita post deshabilitado
-//router.put('/enablePost/:postId',);
 
 
 module.exports = router;

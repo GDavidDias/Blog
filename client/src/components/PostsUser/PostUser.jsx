@@ -45,6 +45,7 @@ const PostUser = () => {
                         Date={post.Date}
                         Image={post.Image}
                         Text={post.Text}
+                        Category={post.Category}
                         Available={post.Available}
                         UserId={userSG.id}
                     />

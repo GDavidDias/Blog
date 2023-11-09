@@ -42,6 +42,7 @@ const InitBlog = () => {
                         Date={post.Date}
                         Image={post.Image}
                         Text={post.Text}
+                        Category={post.Category}
                         Available={post.Available}
                         UserId={post.UserId}
                     />
